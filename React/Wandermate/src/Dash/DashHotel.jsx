@@ -85,7 +85,11 @@ const DashHotel = () => {
   };
 
   const handleDelete = (index) => {
-    setHotels(hotels.filter((_, i) => i !== index));
+    // setHotels(hotels.filter((_, i) => i !== index));
+    const updatedHotel = [...hotels]
+    updatedHotel.splice(index,1);
+    setHotels(updatedHotel)
+    loadHotelFromLocal(updatedHotel)
   };
 
   const handleEdit = (index) => {
