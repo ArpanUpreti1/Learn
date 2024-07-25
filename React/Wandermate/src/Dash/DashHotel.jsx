@@ -12,6 +12,8 @@ const DashHotel = () => {
     reserveNow: false,
     desc: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     const loadHotelFromLocal = () => {
@@ -53,8 +55,19 @@ const DashHotel = () => {
       alert("Please fill out all required fields.");
       return;
     }
-    const updatedHotel = { id: Date.now(), ...newHotel };
-    setHotels(prevHotels => [...prevHotels, updatedHotel]);
+
+    if (isEditing) {
+      const updatedHotels = hotels.map(hotel =>
+        hotel.id === editId ? { ...hotel, ...newHotel } : hotel
+      );
+      setHotels(updatedHotels);
+      setIsEditing(false);
+      setEditId(null);
+    } else {
+      const updatedHotel = { id: Date.now(), ...newHotel };
+      setHotels(prevHotels => [...prevHotels, updatedHotel]);
+    }
+
     setShowForm(false);
     setNewHotel({
       name: '',
@@ -76,13 +89,32 @@ const DashHotel = () => {
     setHotels(hotels.filter(hotel => hotel.id !== id));
   };
 
+  const handleEdit = (hotel) => {
+    setNewHotel(hotel);
+    setIsEditing(true);
+    setEditId(hotel.id);
+    setShowForm(true);
+  };
+
   return (
     <div className='w-full ml-[10px]'>
       <div className="overflow-x-auto">
         <h1 className="text-3xl font-bold">Hotels</h1>
         <button 
           className='bg-blue-500 border-none rounded-lg text-2xl font-bold px-2 py-2 mt-2 mb-2 text-white' 
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setShowForm(true);
+            setIsEditing(false);
+            setNewHotel({
+              name: '',
+              price: '',
+              img: '',
+              rating: '',
+              freeCancellation: false,
+              reserveNow: false,
+              desc: ''
+            });
+          }}
         >
           Add Hotel
         </button>
@@ -113,7 +145,7 @@ const DashHotel = () => {
                   <td className='border px-4 py-2'>
                     <button 
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-3 w-[80px]" 
-                      onClick={() => alert('Edit functionality not implemented')}
+                      onClick={() => handleEdit(hotel)}
                     >
                       Edit
                     </button>
@@ -131,7 +163,7 @@ const DashHotel = () => {
 
           {showForm && (
             <div className="mt-4">
-              <h1 className='text-2xl font-bold'>Add new Hotel</h1>
+              <h1 className='text-2xl font-bold'>{isEditing ? 'Edit Hotel' : 'Add new Hotel'}</h1>
               <form onSubmit={handleSubmit}>
                 <div className='max-h-[300px] overflow-y-auto'>
                   <h1 className='text-xl text-gray-500 mt-2 mb-2'>Name</h1>
@@ -143,7 +175,6 @@ const DashHotel = () => {
                     type="text"
                     required
                   />
-
 
                   <h1 className='text-xl text-gray-500 mt-2 mb-2'>Price</h1>
                   <input 
@@ -203,7 +234,7 @@ const DashHotel = () => {
                   type="submit" 
                   className='bg-blue-500 border-none rounded-lg text-2xl font-bold px-2 py-2 mt-5 mb-2 text-white'
                 >
-                  Save Hotel 👍
+                  {isEditing ? 'Update Hotel' : 'Save Hotel 👍'}
                 </button>
                 <button 
                   type="button"
