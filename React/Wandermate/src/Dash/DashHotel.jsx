@@ -13,7 +13,7 @@ const DashHotel = () => {
     desc: ''
   });
   const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     const loadHotelFromLocal = () => {
@@ -57,15 +57,14 @@ const DashHotel = () => {
     }
 
     if (isEditing) {
-      const updatedHotels = hotels.map(hotel =>
-        hotel.id === editId ? { ...hotel, ...newHotel } : hotel
+      const updatedHotels = hotels.map((hotel, index) =>
+        index === editIndex ? { ...hotel, ...newHotel } : hotel
       );
       setHotels(updatedHotels);
       setIsEditing(false);
-      setEditId(null);
+      setEditIndex(null);
     } else {
-      const updatedHotel = { id: Date.now(), ...newHotel };
-      setHotels(prevHotels => [...prevHotels, updatedHotel]);
+      setHotels(prevHotels => [...prevHotels, newHotel]);
     }
 
     setShowForm(false);
@@ -85,14 +84,14 @@ const DashHotel = () => {
     handleSave();
   };
 
-  const handleDelete = (id) => {
-    setHotels(hotels.filter(hotel => hotel.id !== id));
+  const handleDelete = (index) => {
+    setHotels(hotels.filter((_, i) => i !== index));
   };
 
-  const handleEdit = (hotel) => {
-    setNewHotel(hotel);
+  const handleEdit = (index) => {
+    setNewHotel(hotels[index]);
     setIsEditing(true);
-    setEditId(hotel.id);
+    setEditIndex(index);
     setShowForm(true);
   };
 
@@ -122,7 +121,7 @@ const DashHotel = () => {
           <table className="min-w-full table-auto">
             <thead className="sticky top-0 bg-gray-300">
               <tr className='text-2xl text-center'>
-                <th className='border px-4 py-2'>ID</th>
+                <th className='border px-4 py-2'>#</th>
                 <th className='border px-4 py-2'>Name</th>
                 <th className='border px-4 py-2'>Price</th>
                 <th className='border px-4 py-2'>Img</th>
@@ -133,9 +132,9 @@ const DashHotel = () => {
               </tr>
             </thead>
             <tbody>
-              {hotels.map((hotel) => (
-                <tr key={hotel.id} className='text-center'>
-                  <td className='border px-4 py-2'>{hotel.id}</td>
+              {hotels.map((hotel, index) => (
+                <tr key={index} className='text-center'>
+                  <td className='border px-4 py-2'>{index + 1}</td>
                   <td className='border px-4 py-2'>{hotel.name}</td>
                   <td className='border px-4 py-2'>{hotel.price}</td>
                   <td className='border px-4 py-2'>{sliceImg(hotel.img)}</td>
@@ -145,13 +144,13 @@ const DashHotel = () => {
                   <td className='border px-4 py-2'>
                     <button 
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-3 w-[80px]" 
-                      onClick={() => handleEdit(hotel)}
+                      onClick={() => handleEdit(index)}
                     >
                       Edit
                     </button>
                     <button 
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-3 w-[80px] ml-5" 
-                      onClick={() => handleDelete(hotel.id)}
+                      onClick={() => handleDelete(index)}
                     >
                       Delete
                     </button>
