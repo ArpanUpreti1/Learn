@@ -1,0 +1,9 @@
+{
+    "Users":[
+        {
+            "id": 1,"firstName":"Arpan","lastName":"Upreti","address":"Goathgaun","phone":987654321
+        },{
+            "id": 2,"firstName":"Jenish","lastName":"Shreatha","address":"Thahari","phone":9876554
+        }
+    ]
+}

@@ -30,8 +30,21 @@
 // Better Way
 
 
-function reverse(){
-const a = document.getElementById("input").value
-const b = a.split('').reverse().join('')
-console.log(b)
+// function reverse(){
+// const a = document.getElementById("input").value
+// const b = a.split('').reverse().join('')
+// console.log(b)
+// }
+
+
+// Reverse of integer
+
+let num = 112;
+let reversedNum = 0;
+
+while (num !== 0) {
+    reversedNum = reversedNum * 10 + (num % 10);
+    num = Math.floor(num / 10);
 }
+
+console.log(reversedNum); // Output: 1

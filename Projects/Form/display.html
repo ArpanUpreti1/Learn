@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Display User Information</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .user-info {
+        max-width: 600px;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="user-info">
+    <h2>User Information</h2>
+    <p><strong>Name:</strong> <span id="displayName"></span></p>
+    <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+    <p><strong>Contact Number:</strong> <span id="displayContact"></span></p>
+    <p><strong>Address:</strong> <span id="displayAddress"></span></p>
+</div>
+
+<script>
+    let userData = JSON.parse(localStorage.getItem('userData'));
+
+    if (userData) {
+        document.getElementById('displayName').textContent = userData.name;
+        document.getElementById('displayEmail').textContent = userData.email;
+        document.getElementById('displayContact').textContent = userData.contact;
+        document.getElementById('displayAddress').textContent = userData.address;
+    } else {
+
+        alert('No user data found.');
+    }
+</script>
+
+</body>
+</html>

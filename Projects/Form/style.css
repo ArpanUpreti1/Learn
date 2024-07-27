@@ -1,0 +1,18 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    position: relative;
+    left: 35%;
+    margin-top: 200px;
+    background-color: blue;
+    height: 250px;
+    width: 400px;
+}
+.container input{
+    margin-top: 20px;
+    margin-left: 40px;
+    width: 250px;
+    height: 30px;
+}
