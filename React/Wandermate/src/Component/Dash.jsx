@@ -4,6 +4,7 @@ import DashHotel from '../Dash/DashHotel';
 import DashTravel from '../Dash/DashTravel';
 import Booking from '../Dash/Booking';
 import User from '../Dash/User';
+import axios from 'axios';
 
 const Dash = () => {
     return (

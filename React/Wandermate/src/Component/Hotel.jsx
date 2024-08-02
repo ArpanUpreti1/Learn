@@ -4,6 +4,7 @@ import I1 from '../assets/search.png';
 import MainCard from './MainCard';
 import Footer from './Footer';
 import MainSec from './MainSec'
+import axios from 'axios';
 
 function Hotel() {
     const [hotels, setHotels] = useState([]);
@@ -11,7 +12,7 @@ function Hotel() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const hotelResponse = await fetch("http://localhost:3000/hotels");
+                const hotelResponse = await fetch("http://localhost:5080/api/hotel");
                 
                 if (!hotelResponse.ok) {
                     throw new Error("Network Problem");

@@ -11,7 +11,7 @@ function TravelPackage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const hotelResponse = await fetch("http://localhost:3000/travelPackages");
+                const hotelResponse = await fetch("http://localhost:5080/api/travel");
                 
                 if (!hotelResponse.ok) {
                     throw new Error("Network Problem");

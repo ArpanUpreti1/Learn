@@ -20,15 +20,17 @@ const MainSec = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const hotelResponse = await fetch(`http://localhost:3000/hotels/${id}`);
-                const reviewResponse = await fetch(`http://localhost:3000/reviews/${id}`);
+                const hotelResponse = await fetch(`http://localhost:5080/api/hotel/${id}`);
+             
                 if (!hotelResponse.ok) {
                     throw new Error("Network Problem");
                 }
                 const hotelData = await hotelResponse.json();
-                const reviewData = await reviewResponse.json();
+                console.log(hotelData);
+             
                 setHotel(hotelData);
-                setReview(reviewData);
+                
+            
             } catch (error) {
                 setError(error.message);
                 console.error(error);
@@ -51,7 +53,7 @@ const MainSec = () => {
             <h1 className='text-center text-4xl font-bold mt-2 mb-3 text-orange-400 '>{hotel.name}</h1>   
             <div style={{ display: "flex" }}>
                 <div style={{ flex: "1 0 50%" }}>
-                    <img className="w-full h-[550px] rounded-md" src={hotel.img} alt="" />
+                    <img className="w-full h-[550px] rounded-md" src={hotel.image} alt="" />
                     <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: "10px" }}>
                         <li style={{ textDecoration: "none", listStyle: "none" }}>About</li>
                         <li style={{ textDecoration: "none", listStyle: "none" }}>Location</li>
@@ -60,12 +62,12 @@ const MainSec = () => {
                 </div>
                 <div className="ml-[10px]" style={{ display: 'flex', flexDirection: 'column', flex: "1 0 50%", gap: "10px" }}>
                     <div style={{ display: 'flex', gap: "10px" }}>
-                        <img className='w-[120px] h-[270px] ml-[0] rounded-md' src={hotel.img} alt="" style={{ flex: "1 0 50%" }} />
-                        <img className='w-[120px] h-[270px] rounded-md' src={hotel.img} alt="" style={{ flex: "1 0 50%", }} />
+                        <img className='w-[120px] h-[270px] ml-[0] rounded-md' src={hotel.image} alt="" style={{ flex: "1 0 50%" }} />
+                        <img className='w-[120px] h-[270px] rounded-md' src={hotel.image} alt="" style={{ flex: "1 0 50%", }} />
                     </div>
                     <div style={{ display: 'flex', gap: "10px" }}>
-                        <img className='w-[120px] h-[270px] ml-[0] rounded-md' src={hotel.img} alt="" style={{ flex: "1 0 50%" }} />
-                        <img className='w-[120px] h-[270px] rounded-md' src={hotel.img} alt="" style={{ flex: "1 0 50%", }} />
+                        <img className='w-[120px] h-[270px] ml-[0] rounded-md' src={hotel.image} alt="" style={{ flex: "1 0 50%" }} />
+                        <img className='w-[120px] h-[270px] rounded-md' src={hotel.image} alt="" style={{ flex: "1 0 50%", }} />
                     </div>
                 </div>
             </div>

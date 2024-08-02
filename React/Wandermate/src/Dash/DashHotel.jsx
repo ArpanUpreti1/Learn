@@ -1,3 +1,5 @@
+
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 const DashHotel = () => {
@@ -16,31 +18,17 @@ const DashHotel = () => {
   const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
-    const loadHotelFromLocal = () => {
-      const storedHotels = localStorage.getItem('hotels');
-      if (storedHotels) {
-        setHotels(JSON.parse(storedHotels));
-      } else {
-        console.error("No hotels found in local storage.");
+    const fetchHotels = async () => {
+      try {
+        const response = await axios.get("http://localhost:5080/api/hotel");
+        setHotels(response.data);
+      } catch (error) {
+        console.error("Error fetching hotels:", error);
       }
     };
 
-    loadHotelFromLocal();
+    fetchHotels();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('hotels', JSON.stringify(hotels));
-  }, [hotels]);
-
-  const sliceDescription = (desc) => {
-    const words = desc.split(' ');
-    return words.length > 50 ? words.slice(0, 50).join(' ') + '...' : desc;
-  };
-
-  const sliceImg = (img) => {
-    const words = img.split('');
-    return words.length > 50 ? words.slice(0, 30).join('') + '...' : img;
-  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -50,33 +38,39 @@ const DashHotel = () => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!newHotel.name || !newHotel.price || !newHotel.img) {
       alert("Please fill out all required fields.");
       return;
     }
 
-    if (isEditing) {
-      const updatedHotels = hotels.map((hotel, index) =>
-        index === editIndex ? { ...hotel, ...newHotel } : hotel
-      );
-      setHotels(updatedHotels);
-      setIsEditing(false);
-      setEditIndex(null);
-    } else {
-      setHotels(prevHotels => [...prevHotels, newHotel]);
+    try {
+      if (isEditing) {
+        await axios.put(`http://localhost:5080/api/hotel/${editIndex}`, newHotel);
+        const updatedHotels = hotels.map((hotel, index) =>
+          index === editIndex ? { ...hotel, ...newHotel } : hotel
+        );
+        setHotels(updatedHotels)
+        setIsEditing(false)
+        setEditIndex(null);
+        
+      } else {
+        const response = await axios.post("http://localhost:5080/api/hotel", newHotel);
+        setHotels(prevHotels => [...prevHotels, response.data]);
+      }
+      setShowForm(false);
+      setNewHotel({
+        name: '',
+        price: '',
+        img: '',
+        rating: '',
+        freeCancellation: false,
+        reserveNow: false,
+        desc: ''
+      });
+    } catch (error) {
+      console.error("Error saving hotel:", error);
     }
-
-    setShowForm(false);
-    setNewHotel({
-      name: '',
-      price: '',
-      img: '',
-      rating: '',
-      freeCancellation: false,
-      reserveNow: false,
-      desc: ''
-    });
   };
 
   const handleSubmit = (e) => {
@@ -84,12 +78,8 @@ const DashHotel = () => {
     handleSave();
   };
 
-  const handleDelete = (index) => {
-    // setHotels(hotels.filter((_, i) => i !== index));
-    const updatedHotel = [...hotels]
-    updatedHotel.splice(index,1);
-    setHotels(updatedHotel)
-    loadHotelFromLocal(updatedHotel)
+  const handleDelete = async (index) => {
+   
   };
 
   const handleEdit = (index) => {
@@ -98,6 +88,8 @@ const DashHotel = () => {
     setEditIndex(index);
     setShowForm(true);
   };
+
+  
 
   return (
     <div className='w-full ml-[10px]'>
@@ -121,7 +113,7 @@ const DashHotel = () => {
         >
           Add Hotel
         </button>
-        <div className="max-h-[1000px] overflow-y-auto">
+        <div className="max-h-[500px] overflow-y-auto">
           <table className="min-w-full table-auto">
             <thead className="sticky top-0 bg-gray-300">
               <tr className='text-2xl text-center'>
@@ -141,10 +133,10 @@ const DashHotel = () => {
                   <td className='border px-4 py-2'>{index + 1}</td>
                   <td className='border px-4 py-2'>{hotel.name}</td>
                   <td className='border px-4 py-2'>{hotel.price}</td>
-                  <td className='border px-4 py-2'>{sliceImg(hotel.img)}</td>
+                  <td className='border px-4 py-2'>{(hotel.img)}</td>
                   <td className='border px-4 py-2'>{hotel.reserveNow ? "Yes" : "No"}</td>
                   <td className='border px-4 py-2'>{hotel.freeCancellation ? "Yes" : "No"}</td>
-                  <td className='border px-4 py-2'>{sliceDescription(hotel.desc)}</td>
+                  <td className='border px-4 py-2'>{(hotel.desc)}</td>
                   <td className='border px-4 py-2'>
                     <button 
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-3 w-[80px]" 
