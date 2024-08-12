@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="display: flex; justify-content: center;">
+    <div id="img" style="border: 1px solid ; width: 350px; border-radius: 10px;">
+
+    </div>
+    
+</body>
+<script>
+    let image = document.querySelector("#img")
+    const url = 'https://api.github.com/users/hiteshchoudhary'
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET',url)
+    xhr.onreadystatechange = function (){
+        console.log(xhr.readyState);
+        if (xhr.readyState === 4) {
+            const data = JSON.parse(this.responseText)
+            image.innerHTML = `<img src = ${data.avatar_url} style="width:300px; padding:20px;" ></img><h1>Followers: <span style="color: red;">${data.followers}</span></h1>`
+
+            
+            
+            console.log(data.followers);
+        }
+        
+    }
+    xhr.send();
+</script>
+</html>

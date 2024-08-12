@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Events</title>
+</head>
+<body style="background-color: #414141; color: white;">
+    <h2>Amazing imgaes</h2>
+    <div>
+        <ul id="imgaes">
+        <li><img id="img_1" width="200px" src="https://images.pexels.com/photos/22027141/pexels-photo-22027141/free-photo-of-farmer-in-hat-sitting-on-field.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcset=""></li>
+        <li><img id="img_2" width="200px" src="https://images.pexels.com/photos/16310530/pexels-photo-16310530/free-photo-of-yard-in-traditional-stone-and-wooden-house.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcset=""></li>
+        <li><img id="img_3" width="200px" src="https://images.pexels.com/photos/10928747/pexels-photo-10928747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" srcset=""></li>
+        <li><a style="color: white;" href="http://google.com" id="google">Google</a></li>
+      </ul>
+    </div>
+</body>
+<script>
+    // document.getElementById('img_3').onclick = function (){
+    //     alert('You clicked')
+    // }
+
+    // Type, TimeStamp, defaultPrevented
+    // Target, toElement, srcElement, currentTarget
+    // client poition, screenX, screenY
+    // altkey, ctrlKey, shiftKey, keyCode
+
+    //Event propogation. It has two context. 1. Event Bubling 2. Event capturing
+
+    // In event bubling it goes upward means the inner will be executed false unlike event capturing where it goes opposite
+
+    // document.getElementById('imgaes').addEventListener('click',(e)=>{
+    //     console.log("Clicked inside the ul");
+    // },false)
+    
+    // document.getElementById('img_3').addEventListener('click',(e)=>{
+    //     console.log("Owled Clicked");
+    //     e.stopPropagation()
+    // },false)
+    // document.getElementById("google").addEventListener('click',(e)=>{
+    //     e.preventDefault()
+    // },false)
+    
+
+       document.querySelector('#imgaes').addEventListener('click',(e)=>{
+                console.log(e.target.parentNode);
+                if (e.target.tagName === 'IMG') {
+                    let removeImg = e.target.parentNode
+                    removeImg.remove()
+                    
+                }
+       },false)
+</script>
+</html>

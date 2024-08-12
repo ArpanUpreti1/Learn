@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Learning.</title>
+    <style>
+        body{
+            background-color: rgb(41, 40, 40);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="bg-black">
+        <h1 class="heading" id="title">DOM Learning on chai aur code. <span style="display: none;">Test text</span></h1>
+        <p>Lorem ipsum dolor sit amet. </p>
+        <h1>This is another h1</h1>
+        <ul>
+            <li class="list-item">one</li>
+            <li class="list-item">Two</li>
+            <li class="list-item">Three</li>
+        </ul>
+    </div>
+</body>
+</html>
+<!-- 
+DOM means document object model
+we have a lot of DOM selector . 
+example:
+document.getElementById("id")  :=> this selects element based on id
+document.querySelector(h1)     :=> this selects the first h1 or anything we pass we can pass class and id also
+document.querySelectorAll(h1)  :=> this selects all 
+document.getElementByClassName(className) :=> selects the given class
+
+in queryselector it returns a nodelist which is not an array but can be converted to array
+Array.from( ) :=> this is how we can convert and operate
+
+-->
